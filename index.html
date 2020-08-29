@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+	<script defer type="text/javascript" src="./script.js"></script>
+	<title>Registration Task</title>
+</head>
+
+<body>
+	<header>
+		<button class="check-not-work">Левая кнопка для проверки</button>
+		<div class="registration">
+			<button class="sign-up">Регистрация</button>
+			<div class="userinfo nodisplay"></div>
+			<button class="sign-in">Вход</button>
+			<button class="sign-out nodisplay">Выйти</button>
+		</div>
+		<button class="check-not-work">Правая кнопка для проверки</button>
+	</header>
+	<main>
+		<p>Создать кнопку регистрации и логина,
+			по нажатию на первую,
+			появляется модальное окно с просьбой ввести логин,
+			пароль, возраст и имя.
+			В модальном окне должны быть кнопки -
+			отмена и подтвердить.
+			По нажатию на первую, окно просто закрывается,
+			по нажатию на вторую происходит регистрация
+			пользователя
+			(добавляется в массив пользователей,
+			который вы у себя создадите в коде).
+			Обязательно предусмотреть валидацию на пустые поля.
+			Далее если юзер нажмет на кнопку логина,
+			снова появится модальное окно где он должен будет
+			ввести свои данные.
+			По нажатию на кнопку отмена, окно закрывается,
+			по нажатию на кнопку залогиниться,
+			происходит проверка введённых данных.
+			Вы должны проверить есть ли такой пользователь и
+			корректно ли он ввёл данные.
+			При отрицательном результате, вывести нотификацию,
+			что пользователь не существует или неверный пароль,
+			при успешной,
+			вывести поздравление об успешном логине и на экране
+			должна появится инфа с информацией о юзере.
+			Модальное окно должно иметь затемненный задний фон.</p>
+	</main>
+	<div class="fogging nodisplay">
+		<div class="lightbox sign-up-window nodisplay">
+			<form name="sign-up">
+				<input type="text" placeholder="Введите логин" name="login">
+				<input type="password" placeholder="Введите пароль" name="password">
+				<input type="text" placeholder="Введите имя" name="name">
+				<input type="number" min="1" placeholder="Введите возраст" name="age">
+			</form>
+			<p class="warning warning-empty hidden"><em>*</em> Поля не должны быть пустыми</p>
+			<button class="cancel">Отмена</button>
+			<button class="submit">Подтвердить</button>
+		</div>
+		<div class="lightbox sign-in-window nodisplay">
+			<form name="sign-in">
+				<input type="text" placeholder="Введите свой логин" name="login">
+				<input type="password" placeholder="Введите свой пароль" name="password">
+			</form>
+			<p class="warning warning-sign-in hidden"><em>!</em> Такого пользователя нет</p>
+			<button class="cancel">Отмена</button>
+			<button class="comein">Войти</button>
+		</div>
+	</div>
+</body>
+
+</html>
