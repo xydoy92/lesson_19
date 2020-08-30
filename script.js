@@ -54,7 +54,7 @@ submitSignUpButton.addEventListener("click", function () {
 	};
 
 	for (let data in user) {
-		if (user[data] === "") {
+		if(user[data] === "") {
 			warningIfEmptyInput.classList.remove("hidden");
 			return;
 		}
@@ -71,34 +71,34 @@ submitSignUpButton.addEventListener("click", function () {
 comeInButton.addEventListener("click", function () {
 	login = document.forms["sign-in"].elements.login.value;
 	password = document.forms["sign-in"].elements.password.value;
-	for (let key of users) {
-		if (login === key.login) {
-			if (password === key.password) {
-				let userLogin = document.createElement("p");
-				userLogin.append(`Логин: ${key.login}`);
-				let userAge = document.createElement("p");
-				userAge.append(`Возраст: ${key.age}`);
-				let userName = document.createElement("p");
-				userName.append(`Имя: ${key.name}`);
-				userInfo.append(userLogin, userName, userAge);
-				signUpButton.classList.add(noDisplay);
-				userInfo.classList.remove(noDisplay);
-				signInButton.classList.add(noDisplay);
-				signOutButton.classList.remove(noDisplay);
-				fogging.classList.add(noDisplay);
-				signInWindow.classList.add(noDisplay);
-				document.forms["sign-in"].reset();
-				return;
-			} else {
-				warningSignIn.innerHTML = "<em>!</em> Неверный пароль";
-				warningSignIn.classList.remove("hidden");
-				return;
-			}
-		}
+	let currentUser = users.find(user => user.login === login);
+	if(login === "" || password === "") {
+		return warningSignIn.classList.remove("hidden");
+	} else if(currentUser === undefined) {
+		warningSignIn.innerHTML = "<em>!</em> Такого пользователя нет";
+		return warningSignIn.classList.remove("hidden");
+	} else if(currentUser.password !== password) {
+		warningSignIn.innerHTML = "<em>!</em> Неверный пароль";
+		return warningSignIn.classList.remove("hidden");
+	} else {
+		let userLogin = document.createElement("p");
+		userLogin.append(`Логин: ${currentUser.login}`);
+		let userAge = document.createElement("p");
+		userAge.append(`Возраст: ${currentUser.age}`);
+		let userName = document.createElement("p");
+		userName.append(`Имя: ${currentUser.name}`);
+		userInfo.append(userLogin, userName, userAge);
+		signUpButton.classList.add(noDisplay);
+		userInfo.classList.remove(noDisplay);
+		signInButton.classList.add(noDisplay);
+		signOutButton.classList.remove(noDisplay);
+		fogging.classList.add(noDisplay);
+		signInWindow.classList.add(noDisplay);
+		document.forms["sign-in"].reset();
+		return;
 	}
-	warningSignIn.innerHTML = "<em>!</em> Такого пользователя нет";
-	warningSignIn.classList.remove("hidden");
 });
+
 
 signOutButton.addEventListener("click", function () {
 	signUpButton.classList.remove(noDisplay);
