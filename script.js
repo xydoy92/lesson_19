@@ -21,26 +21,30 @@ let warningSignIn = document.querySelector(".warning-sign-in");
 let signUpWindow = document.querySelector(".sign-up-window");
 let signInWindow = document.querySelector(".sign-in-window");
 
-function hideOrShowElement(elementName, visibilityState, hideKind) {
-	elementName.classList[visibilityState](hideKind);
+function hideElements(hideKind, ...elements) {
+	for(let element of elements) {
+		element.classList.add(hideKind);
+	}
 }
 
-signUpButton.addEventListener("click", function () {
-	hideOrShowElement(fogging, "remove", noDisplay);
-	hideOrShowElement(signUpWindow, "remove", noDisplay);
+function showElements(hideKind, ...elements) {
+	for(let element of elements) {
+		element.classList.remove(hideKind);
+	}
+}
+
+signUpButton.addEventListener("click", function() {
+	showElements(noDisplay, fogging, signUpWindow);
 });
 
-signInButton.addEventListener("click", function () {
-	hideOrShowElement(fogging, "remove", noDisplay);
-	hideOrShowElement(signInWindow, "remove", noDisplay);
+signInButton.addEventListener("click", function() {
+	showElements(noDisplay, fogging, signInWindow);
 });
 
 cancelButtons.forEach(function (item) {
 	item.addEventListener("click", function () {
-		hideOrShowElement(fogging, "add", noDisplay);
-		hideOrShowElement(item.parentElement, "add", noDisplay);
-		hideOrShowElement(item.previousElementSibling, "add", hiddenVisibility);
-
+		hideElements(noDisplay, fogging, item.parentElement);
+		hideElements(hiddenVisibility, item.previousElementSibling);
 		item.parentElement.firstElementChild.reset();
 	});
 });
@@ -60,16 +64,14 @@ submitSignUpButton.addEventListener("click", function () {
 
 	for (let data in user) {
 		if(user[data] === "") {
-			hideOrShowElement(warningIfEmptyInput, "remove", hiddenVisibility);
+			showElements(hiddenVisibility, warningIfEmptyInput);
 			return;
 		}
 	}
-	hideOrShowElement(warningIfEmptyInput, "add", hiddenVisibility);
-
+	hideElements(hiddenVisibility, warningIfEmptyInput);
 	users.push(user);
 	document.forms["sign-up"].reset();
-	hideOrShowElement(fogging, "add", noDisplay);
-	hideOrShowElement(signUpWindow, "add", noDisplay);
+	hideElements(noDisplay, fogging, signUpWindow);
 	alert("Регистрация успешна!");
 });
 
@@ -78,15 +80,15 @@ comeInButton.addEventListener("click", function () {
 	password = document.forms["sign-in"].elements.password.value;
 	let currentUser = users.find(user => user.login === login);
 	if(login === "" || password === "") {
-		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		showElements(hiddenVisibility, warningSignIn);
 		return;
 	} else if(currentUser === undefined) {
 		warningSignIn.innerHTML = "<em>!</em> Такого пользователя нет";
-		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		showElements(hiddenVisibility, warningSignIn);
 		return;
 	} else if(currentUser.password !== password) {
 		warningSignIn.innerHTML = "<em>!</em> Неверный пароль";
-		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		showElements(hiddenVisibility, warningSignIn);
 		return;
 	} else {
 		let userLogin = document.createElement("p");
@@ -96,20 +98,14 @@ comeInButton.addEventListener("click", function () {
 		let userName = document.createElement("p");
 		userName.append(`Имя: ${currentUser.name}`);
 		userInfo.append(userLogin, userName, userAge);
-		hideOrShowElement(signUpButton, "add", noDisplay);
-		hideOrShowElement(userInfo, "remove", noDisplay);
-		hideOrShowElement(signInButton, "add", noDisplay);
-		hideOrShowElement(signOutButton, "remove", noDisplay);
-		hideOrShowElement(fogging, "add", noDisplay);
-		hideOrShowElement(signInWindow, "add", noDisplay);
+		showElements(noDisplay, userInfo, signOutButton);
+		hideElements(noDisplay, signUpButton, signInButton, fogging, signInWindow);
 		document.forms["sign-in"].reset();
 		return;
 	}
 });
 
 signOutButton.addEventListener("click", function () {
-	signUpButton.classList.remove(noDisplay);
-	userInfo.classList.add(noDisplay);
-	signInButton.classList.remove(noDisplay);
-	signOutButton.classList.add(noDisplay);
+	hideElements(noDisplay, userInfo, signOutButton);
+	showElements(noDisplay, signUpButton, signInButton);
 });
