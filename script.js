@@ -1,3 +1,5 @@
+const noDisplay = "nodisplay";
+
 let users = [
 	{ login: "Meow", password: "123456", name: "Аня", age: 23, },
 	{ login: "Waw", password: "1234", name: "Саша", age: 14, },
@@ -20,19 +22,21 @@ let signUpWindow = document.querySelector(".sign-up-window");
 let signInWindow = document.querySelector(".sign-in-window");
 
 signUpButton.addEventListener("click", function () {
-	fogging.classList.remove("nodisplay");
-	signUpWindow.classList.remove("nodisplay");
+	fogging.classList.remove(noDisplay);
+	signUpWindow.classList.remove(noDisplay);
 });
 
 signInButton.addEventListener("click", function () {
-	fogging.classList.remove("nodisplay");
-	signInWindow.classList.remove("nodisplay");
+	fogging.classList.remove(noDisplay);
+	signInWindow.classList.remove(noDisplay);
 });
 
 cancelButtons.forEach(function (item) {
 	item.addEventListener("click", function () {
-		fogging.classList.add("nodisplay");
-		item.parentNode.classList.add("nodisplay");
+		fogging.classList.add(noDisplay);
+		item.parentElement.classList.add(noDisplay);
+		item.parentElement.firstElementChild.reset();
+		item.previousElementSibling.classList.add("hidden");
 	});
 });
 
@@ -59,8 +63,9 @@ submitSignUpButton.addEventListener("click", function () {
 
 	users.push(user);
 	document.forms["sign-up"].reset();
-	fogging.classList.add("nodisplay");
-	signUpWindow.classList.add("nodisplay");
+	fogging.classList.add(noDisplay);
+	signUpWindow.classList.add(noDisplay);
+	alert("Регистрация успешна!");
 });
 
 comeInButton.addEventListener("click", function () {
@@ -69,19 +74,19 @@ comeInButton.addEventListener("click", function () {
 	for (let key of users) {
 		if (login === key.login) {
 			if (password === key.password) {
-				let pLogin = document.createElement("p");
-				pLogin.append(`Логин: ${key.login}`);
-				let pAge = document.createElement("p");
-				pAge.append(`Возраст: ${key.age}`);
-				let pName = document.createElement("p");
-				pName.append(`Имя: ${key.name}`);
-				userInfo.append(pLogin, pName, pAge);
-				signUpButton.classList.add("nodisplay");
-				userInfo.classList.remove("nodisplay");
-				signInButton.classList.add("nodisplay");
-				signOutButton.classList.remove("nodisplay");
-				fogging.classList.add("nodisplay");
-				signInWindow.classList.add("nodisplay");
+				let userLogin = document.createElement("p");
+				userLogin.append(`Логин: ${key.login}`);
+				let userAge = document.createElement("p");
+				userAge.append(`Возраст: ${key.age}`);
+				let userName = document.createElement("p");
+				userName.append(`Имя: ${key.name}`);
+				userInfo.append(userLogin, userName, userAge);
+				signUpButton.classList.add(noDisplay);
+				userInfo.classList.remove(noDisplay);
+				signInButton.classList.add(noDisplay);
+				signOutButton.classList.remove(noDisplay);
+				fogging.classList.add(noDisplay);
+				signInWindow.classList.add(noDisplay);
 				document.forms["sign-in"].reset();
 				return;
 			} else {
@@ -96,8 +101,8 @@ comeInButton.addEventListener("click", function () {
 });
 
 signOutButton.addEventListener("click", function () {
-	signUpButton.classList.remove("nodisplay");
-	userInfo.classList.add("nodisplay");
-	signInButton.classList.remove("nodisplay");
-	signOutButton.classList.add("nodisplay");
+	signUpButton.classList.remove(noDisplay);
+	userInfo.classList.add(noDisplay);
+	signInButton.classList.remove(noDisplay);
+	signOutButton.classList.add(noDisplay);
 });
