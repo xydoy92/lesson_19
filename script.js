@@ -1,5 +1,5 @@
 const noDisplay = "nodisplay";
-
+const hiddenVisibility = "hidden";
 let users = [
 	{ login: "Meow", password: "123456", name: "Аня", age: 23, },
 	{ login: "Waw", password: "1234", name: "Саша", age: 14, },
@@ -21,22 +21,27 @@ let warningSignIn = document.querySelector(".warning-sign-in");
 let signUpWindow = document.querySelector(".sign-up-window");
 let signInWindow = document.querySelector(".sign-in-window");
 
+function hideOrShowElement(elementName, visibilityState, hideKind) {
+	elementName.classList[visibilityState](hideKind);
+}
+
 signUpButton.addEventListener("click", function () {
-	fogging.classList.remove(noDisplay);
-	signUpWindow.classList.remove(noDisplay);
+	hideOrShowElement(fogging, "remove", noDisplay);
+	hideOrShowElement(signUpWindow, "remove", noDisplay);
 });
 
 signInButton.addEventListener("click", function () {
-	fogging.classList.remove(noDisplay);
-	signInWindow.classList.remove(noDisplay);
+	hideOrShowElement(fogging, "remove", noDisplay);
+	hideOrShowElement(signInWindow, "remove", noDisplay);
 });
 
 cancelButtons.forEach(function (item) {
 	item.addEventListener("click", function () {
-		fogging.classList.add(noDisplay);
-		item.parentElement.classList.add(noDisplay);
+		hideOrShowElement(fogging, "add", noDisplay);
+		hideOrShowElement(item.parentElement, "add", noDisplay);
+		hideOrShowElement(item.previousElementSibling, "add", hiddenVisibility);
+
 		item.parentElement.firstElementChild.reset();
-		item.previousElementSibling.classList.add("hidden");
 	});
 });
 
@@ -55,16 +60,16 @@ submitSignUpButton.addEventListener("click", function () {
 
 	for (let data in user) {
 		if(user[data] === "") {
-			warningIfEmptyInput.classList.remove("hidden");
+			hideOrShowElement(warningIfEmptyInput, "remove", hiddenVisibility);
 			return;
 		}
 	}
-	warningIfEmptyInput.classList.add("hidden");
+	hideOrShowElement(warningIfEmptyInput, "add", hiddenVisibility);
 
 	users.push(user);
 	document.forms["sign-up"].reset();
-	fogging.classList.add(noDisplay);
-	signUpWindow.classList.add(noDisplay);
+	hideOrShowElement(fogging, "add", noDisplay);
+	hideOrShowElement(signUpWindow, "add", noDisplay);
 	alert("Регистрация успешна!");
 });
 
@@ -73,13 +78,16 @@ comeInButton.addEventListener("click", function () {
 	password = document.forms["sign-in"].elements.password.value;
 	let currentUser = users.find(user => user.login === login);
 	if(login === "" || password === "") {
-		return warningSignIn.classList.remove("hidden");
+		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		return;
 	} else if(currentUser === undefined) {
 		warningSignIn.innerHTML = "<em>!</em> Такого пользователя нет";
-		return warningSignIn.classList.remove("hidden");
+		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		return;
 	} else if(currentUser.password !== password) {
 		warningSignIn.innerHTML = "<em>!</em> Неверный пароль";
-		return warningSignIn.classList.remove("hidden");
+		hideOrShowElement(warningSignIn, "remove", hiddenVisibility);
+		return;
 	} else {
 		let userLogin = document.createElement("p");
 		userLogin.append(`Логин: ${currentUser.login}`);
@@ -88,17 +96,16 @@ comeInButton.addEventListener("click", function () {
 		let userName = document.createElement("p");
 		userName.append(`Имя: ${currentUser.name}`);
 		userInfo.append(userLogin, userName, userAge);
-		signUpButton.classList.add(noDisplay);
-		userInfo.classList.remove(noDisplay);
-		signInButton.classList.add(noDisplay);
-		signOutButton.classList.remove(noDisplay);
-		fogging.classList.add(noDisplay);
-		signInWindow.classList.add(noDisplay);
+		hideOrShowElement(signUpButton, "add", noDisplay);
+		hideOrShowElement(userInfo, "remove", noDisplay);
+		hideOrShowElement(signInButton, "add", noDisplay);
+		hideOrShowElement(signOutButton, "remove", noDisplay);
+		hideOrShowElement(fogging, "add", noDisplay);
+		hideOrShowElement(signInWindow, "add", noDisplay);
 		document.forms["sign-in"].reset();
 		return;
 	}
 });
-
 
 signOutButton.addEventListener("click", function () {
 	signUpButton.classList.remove(noDisplay);
