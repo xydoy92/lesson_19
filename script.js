@@ -63,7 +63,7 @@ submitSignUpButton.addEventListener("click", function () {
 	};
 
 	for (let data in user) {
-		if(user[data] === "") {
+		if(!user[data]) {
 			showElements(hiddenVisibility, warningIfEmptyInput);
 			return;
 		}
@@ -79,7 +79,7 @@ comeInButton.addEventListener("click", function () {
 	login = document.forms["sign-in"].elements.login.value;
 	password = document.forms["sign-in"].elements.password.value;
 	let currentUser = users.find(user => user.login === login);
-	if(login === "" || password === "") {
+	if(!login || !password) {
 		showElements(hiddenVisibility, warningSignIn);
 		return;
 	} else if(currentUser === undefined) {
